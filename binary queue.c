@@ -36,24 +36,27 @@ int main(void)
 	insert(nice,3);
 	insert(nice,4);
 	insert(nice,5);
-	show(nice);
-	puts("");
+	insert(nice,6);
+
+					
+	//show(nice);
+//	puts("");
 	BinHeap good;
 	good=Initialize();
 	insert(good,61);
 	insert(good,91);
 	insert(good,81);	
 	insert(good,71);
-	
+	insert(good,72);
 	show(good);
 	puts("");
 	
 	merge(good,nice);
 	
 	show(good);
-	printf("good size =%d\n",good->size);
+//	printf("nice size =%d\n",nice->size);
 	
-	puts("");
+//	puts("");
 	//printf("pop=%d \n",PopMin(nice));
 	//show(nice);
 	return 0;
@@ -120,6 +123,7 @@ BinHeap Initialize()
 
 void insert(BinHeap H,int C)
 {
+	BinHeap TempHeap;
 	BinTree TempTree;
 	BinNode X;
 	int i,tempsize,position;
@@ -138,8 +142,7 @@ void insert(BinHeap H,int C)
 	for(i=0;i<position;i++)
 	{
 		
-		TempTree=combine(TempTree,H->list[i]);
-		
+		TempTree=combine(TempTree,H->list[i]);	
 		H->list[i]=NULL;
 	}
 	H->list[position]=TempTree;
@@ -156,11 +159,11 @@ void show(BinHeap H)
 	}	
 	puts("");
 
-	/*for(int i=0;i<=TreesNum;i++)
+	for(int i=0;i<=TreesNum;i++)
 	{
 		if(!!H->list[i])
 		traverse(H->list[i]);
-	}*/
+	}
 }
 void traverse(BinTree L)
 {
@@ -181,9 +184,9 @@ void merge(BinHeap H1,BinHeap H2)
 
 	for(i=0;i<=j;i++)
 	{	
-		; H2->list[i];
+		
 
-		switch(!!C1+!!C2*2+4*!!carry)
+		switch(!!H1->list[i]+!!H2->list[i]*2+4*!!carry)
 		{
 			case 0:
 				break;
@@ -195,25 +198,25 @@ void merge(BinHeap H1,BinHeap H2)
 				break;
 			case 3:
 				carry=combine(H1->list[i],H2->list[i]);
-				C1=NULL;
-				C2=NULL;
+				H1->list[i]=NULL;
+				H2->list[i]=NULL;
 				break;
 			case 4:
-				C1=carry;
+				H1->list[i]=carry;
 				carry=NULL;
 				break;
 			case 5:
-				carry=combine(carry,C1);
-				C1=NULL;
+				carry=combine(carry,H1->list[i]);
+				H1->list[i]=NULL;
 				break;
 			case 6:
-				C1=combine(carry,C2);
-				C2=NULL;
+				H1->list[i]=combine(carry,H2->list[i]);
+				H2->list[i]=NULL;
 				carry=NULL;
 				break;
 			case 7:
-				carry=combine(carry,C2);
-				C2=NULL;
+				carry=combine(carry,H2->list[i]);
+				H2->list[i]=NULL;
 				break;	
 		}		
 	}
