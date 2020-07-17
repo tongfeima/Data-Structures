@@ -11,9 +11,9 @@
 
 typedef struct node 
 {
-	int path;//上一站顶点 
-	int visited;//有没有读取完成 
-	int distance;//距离 
+	int path;
+	int visited;
+	int distance; 
 	char name;
 }Node;
 typedef Node* TABLE;
@@ -23,8 +23,8 @@ void InitializeTable(int start,TABLE T[]);
 
 typedef struct PriorityQueue 
 {
-	int size;//当前优先队列里顶点数 
-	int capacity;//队列容量 
+	int size;
+	int capacity; 
 	TABLE element[Max];
 }Queue;
 typedef Queue * QUEUE;
