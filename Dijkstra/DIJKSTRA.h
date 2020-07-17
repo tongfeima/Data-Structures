@@ -11,9 +11,9 @@
 
 typedef struct node 
 {
-	int path;//ÉÏÒ»Õ¾¶¥µã 
-	int visited;//ÓĞÃ»ÓĞ¶ÁÈ¡Íê³É 
-	int distance;//¾àÀë 
+	int path;//ä¸Šä¸€ç«™é¡¶ç‚¹ 
+	int visited;//æœ‰æ²¡æœ‰è¯»å–å®Œæˆ 
+	int distance;//è·ç¦» 
 	char name;
 }Node;
 typedef Node* TABLE;
@@ -23,8 +23,8 @@ void InitializeTable(int start,TABLE T[]);
 
 typedef struct PriorityQueue 
 {
-	int size;//µ±Ç°ÓÅÏÈ¶ÓÁĞÀï¶¥µãÊı 
-	int capacity;//¶ÓÁĞÈİÁ¿ 
+	int size;//å½“å‰ä¼˜å…ˆé˜Ÿåˆ—é‡Œé¡¶ç‚¹æ•° 
+	int capacity;//é˜Ÿåˆ—å®¹é‡ 
 	TABLE element[Max];
 }Queue;
 typedef Queue * QUEUE;
