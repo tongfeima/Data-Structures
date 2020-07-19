@@ -37,6 +37,6 @@ int dequeue(QUEUE Q);
 
 void ShowTable(TABLE T[]);
 void ShowQueue(QUEUE Q);
-void RobustCalculate(Graph (*map)[Max],int row,TABLE T[],QUEUE Q);
+void Robust(Graph (*map)[Max],TABLE T[],QUEUE Q);
+int RobustCalculate(Graph (*map)[Max],int row,int colum );
 #endif
-
