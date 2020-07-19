@@ -11,6 +11,7 @@ void InitializeTable(TABLE T[])
 		T[i]->robust=Infinity;
 		T[i]->name=i;
 	}
+		T[0]->robust=0;
 }
 
 QUEUE InitializeQueue()
@@ -30,7 +31,7 @@ QUEUE InitializeQueue()
 
 void enqueue(QUEUE Q, TABLE K)
 {
-	int i,hole;
+	int i=1,hole;
 	
 	if(K->path==Nopath)
 	{
@@ -39,13 +40,11 @@ void enqueue(QUEUE Q, TABLE K)
 	}
 	else
 	{
-		i=1;
 		while(K->name!=Q->element[i]->name&&Q->element[i]!=NULL)
-		{
 			i++;
-		} 
 		hole=i;	
 	}
+	
 	i=hole/2;
 	
 	while(K->robust < Q->element[i]->robust)
@@ -79,67 +78,65 @@ int dequeue(QUEUE Q)
 	
 }
 
-void RobustCalculate(Graph (*map)[Max],int row,TABLE T[],QUEUE Q)
-{	
-
-	Graph self,others;
+void Robust(Graph (*map)[Max],TABLE T[],QUEUE Q)
+{		
+	int row=0,i,iRob;
 	enqueue(Q,T[row]);
 	while(Q->size!=0)
 	{
 		row=dequeue(Q);
-		
-		for(int i=1;i<Max;i++)
+		for(i=0;i<Max;i++)
 		{	
-			int MaxRob=0,Result;
-			if(map[row][i]==NULL) 
-				i++;
-			self=map[row][i];
-			
-			for(int o=1;o<Max;o++)
+			if(i==row||map[row][i]==NULL) 
+				continue;	
+			iRob=RobustCalculate(map,row,i);		
+			if(T[i]->robust> T[row]->robust+iRob)
 			{	
-				if(o==i||map[row][o]==NULL) 
-					o++;
-				else
-				{
-				
-				others=map[row][o];			
-				if(self->ceil >= others->floor)
-					Result=self->ceil-others->floor;
-				else
-					Result=others->floor-self->ceil;
-					
-				if(Result>MaxRob)
-					MaxRob=Result;
-				o++;
-				}
-			}
-			
-			if(T[row]->robust+MaxRob<T[i]->robust)
-			{	
-				T[i]->robust=T[row]->robust+MaxRob;
+				T[i]->robust=T[row]->robust+iRob;
 				enqueue(Q,T[i]);
 				T[i]->path=row;
 			}
-			ShowTable(T);
 		}
-
 		T[row]->visited=1;
 	}
-	
-	
+	ShowTable(T);	
+}
+
+int RobustCalculate(Graph (*map)[Max],int row,int colum )
+{
+	Graph self,others;
+	int MaxRob=0,Result,i;
+
+	self=map[row][colum];			
+	for(i=0;i<Max;i++)
+	{	
+		if(i==colum||map[row][i]==NULL) 
+			continue;	
+		others=map[row][i];			
+		
+		if(self->ceil > others->floor)
+			Result=self->ceil-others->floor;
+		else
+			Result=others->floor-self->ceil;
+		
+		if(Result>MaxRob)
+			MaxRob=Result;		
+	}	
+	return MaxRob;
 }
 
 void ShowTable(TABLE T[])
 {
 	int i;
-	printf("name	rob	path\n");
+	printf("name	path	robust\n");
 	for(i=0;i<Max;i++)
 	{
-		printf("%d:	%d	%d\n",T[i]->name,T[i]->robust,T[i]->path);
+		printf("%c	%c	%d\n",T[i]->name+65,T[i]->path+65,T[i]->robust);
 	}
 }
 void ShowQueue(QUEUE Q)
 {
-	
-	printf("%d",Q->size);
+	printf("table size=%d	",Q->size);
+	for(int i=1;Q->element[i]!=NULL;i++)
+	 printf("name:%d	path:%d	robust:%d\n",Q->element[i]->name,Q->element[i]->path,Q->element[i]->robust);
 }
